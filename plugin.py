@@ -72,7 +72,7 @@ class XdpzpkPlugin(Plugin):
     def 消息处理(self, evt: PrivateMessageEvent):
         人 = evt.sender.user_id
         if 人 not in self.人到局:
-            self.bot.client.send(event.context, '您尚未进入希顶拼字扑克！')
+            self.bot.client.send(evt.context, '您尚未进入希顶拼字扑克！')
             return
         指令, *余 = evt.message.split() 
         # 此处部分摘自 GitHub 的 officeyutong/Countdown-Bot

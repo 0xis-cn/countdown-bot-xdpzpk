@@ -56,9 +56,6 @@ class Card:
         ]
         花色 = [ '', '红', '黑', '蓝', '绿' ]
         self.名 = '%s%s' % (花色[self.花], 点数[self.点])
-    def __cmp__(self, 他):
-        比花 = cmp(self.花, 他.花)
-        return 比花 if 比花 != 0 else cmp(self.点, 他.点)
 
 class Player:
     def __init__(self, 名: str, 号: int):
@@ -103,6 +100,7 @@ class Game:
 
     def 改模式(self, 新模式, 人):
         if 新模式 not in 模式名:
+            self.发('暂不支持「%s」模式。' % 新模式, 人)
             return
         self.下模式 = 模式名[新模式]
         self.发('下局模式为「%s」。' % 新模式, 人)
@@ -125,6 +123,9 @@ class Game:
             self.发('游戏已在进行！', 人)
             return
         if self.下模式 == 模式.二七王:
+            if len(self.下玩家) != 4:
+                self.发('二七王模式需要 4 名玩家！', 人)
+                return
             self.现状 = 状态.二七王发牌
             self.回合主 = 0
             self.叫分 = 185
@@ -141,7 +142,7 @@ class Game:
                     map(lambda x: x.号, self.现玩家), range(4)))
             for i in self.现玩家:
                 i.庄家 = True
-                i.牌 = sorted(self.牌堆[:25])
+                i.牌 = sorted(self.牌堆[:25], key = lambda x: (x.花, x.点))
                 self.牌堆 = list(self.牌堆[25:])
                 self.发('您的牌为：\n' +
                     '\n'.join(map(lambda x: '%s %s' % x,
