@@ -30,6 +30,8 @@ class XdpzpkPlugin(Plugin):
             chats = { ChatType.private },
             alias = []
         )
+        self.register_event_listener(GroupMessageEvent, self.消息处理)
+
 
     def 指令_xdpzpk(self, plugin, args: List[str],
             raw_string: str, context, evt: PrivateMessageEvent):
