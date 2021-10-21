@@ -42,11 +42,15 @@ class XdpzpkPlugin(Plugin):
                     '如何忽告别，决去如惊凫。' +
                     '您已退出希顶拼字扑克！')
             return
+        if len(args) > 1:
+            self.bot.client.send(context, '参数过多！')
+            return
         名 = args[0]
+        人名 = evt.sender.nickname 
         if 名 not in 名到局:
             名到局[名] = Game(self.bot, 名)
         人到局[人] = 名到局[名]
-        名到局[名].加入(人)
+        名到局[名].加入(人名, 人)
         self.bot.client.send(context,
                     '花径不曾缘客扫，蓬门今始为君开。' +
                     '您已加入希顶拼字扑克房间「%s」！' % 名)
@@ -58,10 +62,10 @@ class XdpzpkPlugin(Plugin):
         game.开始(event.sender.user_id)
 
     def 内指令状态(self, event: PrivateMessageEvent, game: Game):
-        game.状态(event.sender.user_id)
+        game.查询(event.sender.user_id)
 
-    def 内指令出牌(self, event: PrivateMessageEvent, game: Game, 牌):
-        game.出牌(牌, event.sender.user_id)
+    def 内指令出(self, event: PrivateMessageEvent, game: Game, 牌):
+        game.动作(牌, event.sender.user_id)
 
     def 消息处理(self, evt: PrivateMessageEvent):
         人 = evt.sender.user_id
