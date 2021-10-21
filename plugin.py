@@ -83,7 +83,7 @@ class XdpzpkPlugin(Plugin):
         if 3 + len(余) != len(操作.__code__.co_varnames):
             self.bot.client.send(evt.context, '指令参数数量错误。')
             return
-        操作(evt, 人到局[人], *余)
+        操作(evt, self.人到局[人], *余)
 
 def get_plugin_class():
     return XdpzpkPlugin
