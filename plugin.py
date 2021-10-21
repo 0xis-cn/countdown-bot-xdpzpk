@@ -79,11 +79,11 @@ class XdpzpkPlugin(Plugin):
         if not hasattr(self, '内指令' + 指令):
             self.bot.client.send(evt.context, '希顶拼字扑克无此指令。')
             return
-        self.操作 = getattr(self, '内指令' + 指令)
-        if 3 + len(余) != len(self.操作.__code__.co_varnames):
+        操作 = getattr(self, '内指令' + 指令)
+        if 3 + len(余) != len(操作.__code__.co_varnames):
             self.bot.client.send(evt.context, '指令参数数量错误。')
             return
-        self.操作(evt, 局, *余)
+        操作(evt, 人到局[人], *余)
 
 def get_plugin_class():
     return XdpzpkPlugin
