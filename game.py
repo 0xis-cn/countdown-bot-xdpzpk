@@ -71,7 +71,6 @@ class Game:
     def __init__(self, 仆, 名):
         self.仆 = 仆
         self.名 = 名
-        self.态 = 状态.等待 
         self.下模式: 模式 = None 
         self.现状: 状态 = 状态.等待
         self.现玩家: List[Player] = None 
@@ -86,10 +85,10 @@ class Game:
         self.仆.client.send_private_msg(message = 消息, user_id = 人)  
 
     def 发玩家(self, 消息, 人):
-        self.发(消息, 现玩家[人].号)
+        self.发(消息, self.现玩家[人].号)
 
     def 四人广播(self, 消息, 人):
-        名 = 现玩家[人].名
+        名 = self.现玩家[人].名
         关系 = [
                 [ '本家', '下家', '对家', '上家' ],
                 [ '上家', '本家', '下家', '对家' ],
@@ -109,7 +108,7 @@ class Game:
         self.发('下局模式为「%s」。' % 新模式, 人)
 
     def 加入(self, 人名, 人):
-        if 人 in 下玩家:
+        if 人 in self.下玩家:
             self.发('您已加入下局。', 人)
         elif len(self.下玩家) == 4:
             self.发('抱歉，人数已满。', 人)
@@ -153,14 +152,14 @@ class Game:
 
     def 查询(self, 人):
         if self.现状 == 状态.等待:
-            说玩家 = '\n'.join(map(lambda x: x.名, 下玩家))
+            说玩家 = '\n'.join(map(lambda x: x.名, self.下玩家))
             self.发('您在「%s」房间，玩家为：\n%s' % (self.名, 说玩家), 人)
 
     def 动作(self, 牌, 人):
         if 人 not in self.号到玩家:
             self.发('您不在游戏中！', 人)
             return
-        玩家号 = 号到玩家[人]
+        玩家号 = self.号到玩家[人]
         if 玩家号 != self.回合主:
             self.发('不在您的回合！', 人)
             return
@@ -173,20 +172,20 @@ class Game:
                 self.四人广播('{player}不叫。' % 牌, 玩家号)
                 self.不叫人数 += 1
             elif 现分 >= self.叫分 or 现分 % 5 != 0:
-                self.发('叫分须小于 %d 且为 5 氐倍数。' % self.叫分, 人)
+                self.发('self.叫分须小于 %d 且为 5 氐倍数。' % self.叫分, 人)
                 return
             else:
-                self.四人广播('{player}叫分为 %s。' % 牌, 玩家号)
+                self.四人广播('{player}self.叫分为 %s。' % 牌, 玩家号)
             if 现分 != 0:
                 self.叫分 = 现分
             if 现分 == 5:
                 self.不叫人数 = 3
-                for i in 现玩家:
+                for i in self.现玩家:
                     i.庄家 = False
                 self.现玩家[玩家号].庄家 = True
             else:
-                现玩家[人].庄家 = False
-                while not 现玩家[self.回合主].庄家:
+                self.现玩家[人].庄家 = False
+                while not self.现玩家[self.回合主].庄家:
                     self.回合主 += 1
                     if self.回合主 == 4:
                         self.回合主 = 0
