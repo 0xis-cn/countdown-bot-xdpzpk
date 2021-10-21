@@ -34,9 +34,9 @@ class XdpzpkPlugin(Plugin):
     def 指令_xdpzpk(self, plugin, args: List[str],
             raw_string: str, context, evt: PrivateMessageEvent):
         人 = evt.sender.user_id
-        if 人 in 人到局:
-            人到局[人].退出(人)
-            del 人到局[人]
+        if 人 in self.人到局:
+            self.人到局[人].退出(人)
+            del self.人到局[人]
         if len(args) == 0:
             self.bot.client.send(context,
                     '如何忽告别，决去如惊凫。' +
@@ -47,10 +47,10 @@ class XdpzpkPlugin(Plugin):
             return
         名 = args[0]
         人名 = evt.sender.nickname 
-        if 名 not in 名到局:
-            名到局[名] = Game(self.bot, 名)
-        人到局[人] = 名到局[名]
-        名到局[名].加入(人名, 人)
+        if 名 not in self.名到局:
+            self.名到局[名] = Game(self.bot, 名)
+        self.人到局[人] = self.名到局[名]
+        self.名到局[名].加入(人名, 人)
         self.bot.client.send(context,
                     '花径不曾缘客扫，蓬门今始为君开。' +
                     '您已加入希顶拼字扑克房间「%s」！' % 名)
@@ -69,7 +69,7 @@ class XdpzpkPlugin(Plugin):
 
     def 消息处理(self, evt: PrivateMessageEvent):
         人 = evt.sender.user_id
-        if 人 not in 人到局:
+        if 人 not in self.人到局:
             self.bot.client.send(event.context, '您尚未进入希顶拼字扑克！')
             return
         指令, *余 = evt.message.split() 
