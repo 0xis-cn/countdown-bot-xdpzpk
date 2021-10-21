@@ -24,7 +24,7 @@ class XdpzpkPlugin(Plugin):
         self.人到局: Dict[int, Game] = {}
         self.名到局: Dict[str, Game] = {}
         self.register_command_wrapped(
-            command_name = 'xdpzpk'
+            command_name = 'xdpzpk',
             command_handler = self.指令_xdpzpk,
             help_string = '进入希顶拼字扑克游戏',
             chats = { ChatType.private },
@@ -91,6 +91,6 @@ def get_config_class():
 
 def get_plugin_meta():
     return PluginMeta(
-        '物灵', 0.1.0, '希顶拼字扑克'
+        '物灵', 0.1, '希顶拼字扑克'
     )
 

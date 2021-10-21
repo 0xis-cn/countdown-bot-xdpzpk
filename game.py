@@ -101,7 +101,7 @@ class Game:
             if i == 人:
                 continue
             self.发玩家(
-                    消息.format(player = ('%s（%s）' % (名, 关系[i][人])), i)
+                    消息.format(player = ('%s（%s）' % (名, 关系[i][人])), i))
 
     def 改模式(self, 新模式, 人):
         if 新模式 not in 模式名:
